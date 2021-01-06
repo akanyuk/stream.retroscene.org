@@ -68,7 +68,7 @@ $(document).ready(function(){
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">Retroscene stream</h3>
+                <h3 class="masthead-brand">Retroscene stream recordings</h3>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Live</a>
                         <a class="nav-link active" href="/recordings">Recordings</a>
