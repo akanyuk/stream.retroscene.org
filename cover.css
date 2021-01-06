@@ -109,8 +109,9 @@ body {
         display: block;
         white-space: nowrap;
         padding: 0 0 4px 0; 
+        outline : none;
 }
 
 .recording-links A.active {
-        color: #a00;
+        color: #f00;
 }

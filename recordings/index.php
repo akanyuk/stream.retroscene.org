@@ -40,13 +40,11 @@ function formatName($file = "") {
 
         <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
         <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
-        <script src="https://unpkg.com/flv.js/dist/flv.min.js"></script>
-        <script src="https://unpkg.com/videojs-flvjs/dist/videojs-flvjs.min.js"></script>
 
         <title><?php echo $title?></title>
 <script>
 $(document).ready(function(){
-        const player = videojs('vid1', {autoplay: true});
+        const player = videojs('vid1');
 
         $('a[id="recording"]').click(function(e){
                 e.preventDefault();
@@ -54,9 +52,13 @@ $(document).ready(function(){
                 $('a[id="recording"]').removeClass('active');
                 $(this).addClass('active', 'active');
 
-                window.history.pushState('', '<?php echo $title?>', $(this).attr('href'));
+                title = "RST5 / Recordings / " + $(this).text();
+                document.title = title;
+                window.history.pushState('', title, $(this).attr('href'));
 
-                player.src({src: "/rec/" + $(this).data('file'), type: "video/x-flv"});
+                player.pause();
+                player.src("/rec/" + $(this).data('file'));
+                player.load();
                 player.play();
         });
 });
@@ -77,7 +79,7 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-md-10 col-sm-12">
                     <video-js id="vid1" class="vjs-default-skin vjs-fluid" controls>
-                            <source src="/rec/<?php echo $file?>" type="video/x-flv">
+                            <source src="/rec/<?php echo $file?>">
                     </video-js>
                 </div>
                 <div class="col-md-2 col-sm-12">
