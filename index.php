@@ -1,3 +1,6 @@
+<?php 
+        $const = include('const.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,14 +24,14 @@
         <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
         <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
         
-        <title>RST5 - Retroscene STreaming</title>
+        <title><?php echo $const['titlePrefix'].' / live'?></title>
 </head>
 
 <body class="text-center">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
                 <header class="masthead mb-auto">
                         <div class="inner">
-                                <h3 class="masthead-brand">Retroscene stream</h3>
+                                <h3 class="masthead-brand"><?php echo $const['header']?></h3>
                                 <nav class="nav nav-masthead justify-content-center">
                                         <a class="nav-link active" href="/">Live</a>
                                         <a class="nav-link" href="/recordings">Recordings</a>
@@ -44,7 +47,7 @@
 
                 <footer class="mastfoot mt-auto">
                         <div class="inner">
-                                <p>retroscene team 2014-2020</p>
+                                <p>retroscene team 2014-2021</p>
                         </div>
                 </footer>
         </div>

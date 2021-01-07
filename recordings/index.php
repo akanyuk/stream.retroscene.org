@@ -1,6 +1,5 @@
 ﻿<?php
-const titlePrefix = "RST5 / Recordings / ";
-
+$const = include('../const.php');
 $files = array_diff(scandir("../rec/"), array('.', '..'));
 
 if (isset($_GET['file']) && $_GET['file'] && file_exists('../rec/'.$_GET['file'])) {
@@ -15,12 +14,12 @@ function formatName($file = "") {
         return $y.'.'.$mon.'.'.$d.' '.$h.':'.$m;
 }
 
-function formatTitle($file = "") {
+function formatTitle($const, $file = "") {
         if ($file == "") {
-                return titlePrefix.'Not found';
+                return  'No recordings found';
         }
 
-        return titlePrefix.formatName($file);
+        return $const['titlePrefix'].' / Recordings / '.formatName($file);
 }
 ?>
 <!DOCTYPE html> 
@@ -45,7 +44,7 @@ function formatTitle($file = "") {
         <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
         <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
 
-        <title><?php echo formatTitle($file)?></title>
+        <title><?php echo formatTitle($const, $file)?></title>
 <script>
 $(document).ready(function(){
         const player = videojs('vid1');
@@ -56,7 +55,7 @@ $(document).ready(function(){
                 $('a[id="recording"]').removeClass('active');
                 $(this).addClass('active', 'active');
 
-                title = "<?php echo titlePrefix?>" + $(this).text();
+                title = "<?php echo $const['titlePrefix']?> / Recordings / " + $(this).text();
                 document.title = title;
                 window.history.pushState('', title, '?file=' + $(this).data('file'));
 
@@ -72,7 +71,7 @@ $(document).ready(function(){
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">Retroscene stream</h3>
+                <h3 class="masthead-brand"><?php echo $const['header']?></h3>
                 <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Live</a>
                         <a class="nav-link active" href="/recordings">Recordings</a>
@@ -103,7 +102,7 @@ $(document).ready(function(){
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>retroscene team 2014-2020</p>
+                <p>retroscene team 2014-2021</p>
             </div>
         </footer>
     </div>
