@@ -31,7 +31,10 @@
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
                 <header class="masthead mb-auto">
                         <div class="inner">
-                                <h3 class="masthead-brand"><?php echo $const['header']?></h3>
+                                <h3 class="masthead-brand">
+                                        <?php echo $const['header']?>
+                                        <span id="num-viewers" class="badge badge-primary badge-viewers" title="Viewers count"></span>
+                                </h3>
                                 <nav class="nav nav-masthead justify-content-center">
                                         <a class="nav-link active" href="/">Live</a>
                                         <a class="nav-link" href="/recordings">Recordings</a>
@@ -53,7 +56,16 @@
         </div>
         <script>
                 const player = videojs('vid1');
-                player.play();
+
+                setInterval(() => {
+                        fetch('<?php echo $const['statsUrl']?>').then(response => response.json()).then(response => {
+                                if (response.streams.main == undefined || response.streams.main == 0) {
+                                        document.getElementById("num-viewers").innerHTML = "";
+                                } else {
+                                        document.getElementById("num-viewers").innerHTML = response.streams.main;
+                                }
+                        });
+                }, 10000);
         </script>
 </body>
 </html>

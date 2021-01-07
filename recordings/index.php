@@ -45,33 +45,15 @@ function formatTitle($const, $file = "") {
         <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
 
         <title><?php echo formatTitle($const, $file)?></title>
-<script>
-$(document).ready(function(){
-        const player = videojs('vid1');
-
-        $('a[id="recording"]').click(function(e){
-                e.preventDefault();
-
-                $('a[id="recording"]').removeClass('active');
-                $(this).addClass('active', 'active');
-
-                title = "<?php echo $const['titlePrefix']?> / Recordings / " + $(this).text();
-                document.title = title;
-                window.history.pushState('', title, '?file=' + $(this).data('file'));
-
-                player.pause();
-                player.src("/rec/" + $(this).data('file'));
-                player.load();
-                player.play();
-        });
-});
-</script>
 </head>
 <body class="text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand"><?php echo $const['header']?></h3>
+                <h3 class="masthead-brand">
+                        <?php echo $const['header']?>
+                        <span id="num-viewers" class="badge badge-primary badge-viewers" title="Viewers count"></span>
+                </h3>
                 <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Live</a>
                         <a class="nav-link active" href="/recordings">Recordings</a>
@@ -106,5 +88,38 @@ $(document).ready(function(){
             </div>
         </footer>
     </div>
+
+<script>
+const player = videojs('vid1');
+
+setInterval(() => {
+        fetch('<?php echo $const['statsUrl']?>').then(response => response.json()).then(response => {
+                if (response.streams.main == undefined || response.streams.main == 0) {
+                        document.getElementById("num-viewers").innerHTML = "";
+                } else {
+                        document.getElementById("num-viewers").innerHTML = response.streams.main;
+                }
+        });
+}, 10000);
+
+
+$(document).ready(function(){
+        $('a[id="recording"]').click(function(e){
+                e.preventDefault();
+
+                $('a[id="recording"]').removeClass('active');
+                $(this).addClass('active', 'active');
+
+                title = "<?php echo $const['titlePrefix']?> / Recordings / " + $(this).text();
+                document.title = title;
+                window.history.pushState('', title, '?file=' + $(this).data('file'));
+
+                player.pause();
+                player.src("/rec/" + $(this).data('file'));
+                player.load();
+                player.play();
+        });
+});
+</script>
 </body>
 </html>
