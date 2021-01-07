@@ -1,9 +1,7 @@
 ﻿<?php
-$files = array_diff(scandir("../rec/"), array('.', '..'));
+const titlePrefix = "RST5 / Recordings / ";
 
-if (empty($files)) {
-	exit('No recordings founsd');
-}
+$files = array_diff(scandir("../rec/"), array('.', '..'));
 
 if (isset($_GET['file']) && $_GET['file'] && file_exists('../rec/'.$_GET['file'])) {
 	$file = $_GET['file'];
@@ -11,12 +9,18 @@ if (isset($_GET['file']) && $_GET['file'] && file_exists('../rec/'.$_GET['file']
 	$file = reset($files);
 }
 
-$title = "RST5 / Recordings / ".formatName($file);
-
 function formatName($file = "") {
         list($foo, $y, $mon, $d, $h, $min) = explode('-', $file);
         list($m, $foo) = explode('.', $min);
         return $y.'.'.$mon.'.'.$d.' '.$h.':'.$m;
+}
+
+function formatTitle($file = "") {
+        if ($file == "") {
+                return titlePrefix.'Not found';
+        }
+
+        return titlePrefix.formatName($file);
 }
 ?>
 <!DOCTYPE html> 
@@ -41,7 +45,7 @@ function formatName($file = "") {
         <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
         <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
 
-        <title><?php echo $title?></title>
+        <title><?php echo formatTitle($file)?></title>
 <script>
 $(document).ready(function(){
         const player = videojs('vid1');
@@ -52,9 +56,9 @@ $(document).ready(function(){
                 $('a[id="recording"]').removeClass('active');
                 $(this).addClass('active', 'active');
 
-                title = "RST5 / Recordings / " + $(this).text();
+                title = "<?php echo titlePrefix?>" + $(this).text();
                 document.title = title;
-                window.history.pushState('', title, $(this).attr('href'));
+                window.history.pushState('', title, '?file=' + $(this).data('file'));
 
                 player.pause();
                 player.src("/rec/" + $(this).data('file'));
@@ -68,7 +72,7 @@ $(document).ready(function(){
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">Retroscene stream recordings</h3>
+                <h3 class="masthead-brand">Retroscene stream</h3>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Live</a>
                         <a class="nav-link active" href="/recordings">Recordings</a>
@@ -76,6 +80,9 @@ $(document).ready(function(){
             </div>
         </header>
         <main role="main" class="inner cover">
+<?php if (empty($files)): ?>
+        <p>No recordings found</p>
+<?php else: ?>        
             <div class="row">
                 <div class="col-md-10 col-sm-12">
                     <video-js id="vid1" class="vjs-default-skin vjs-fluid" controls>
@@ -85,11 +92,12 @@ $(document).ready(function(){
                 <div class="col-md-2 col-sm-12">
                     <div class="recording-links">
 <?php foreach($files as $f): ?>
-    <a id="recording" data-file="<?php echo $f?>" <?php echo $f == $file ? 'class="active"' : ''?> href="?file=<?php echo $f?>"><?php echo formatName($f)?></a>
+    <a id="recording" data-file="<?php echo $f?>" <?php echo $f == $file ? 'class="active"' : ''?> href="/rec/<?php echo $f?>"><?php echo formatName($f)?></a>
 <?php endforeach;?>
                     </div>
                 </div>
             </div>
+<?php endif; ?>            
         </main>
 
         <footer class="mastfoot mt-auto">
