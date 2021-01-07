@@ -73,10 +73,11 @@ $(document).ready(function(){
         <header class="masthead mb-auto">
             <div class="inner">
                 <h3 class="masthead-brand">Retroscene stream</h3>
-                    <nav class="nav nav-masthead justify-content-center">
+                <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Live</a>
                         <a class="nav-link active" href="/recordings">Recordings</a>
-                    </nav>
+                        <a class="nav-link nav-link-hls" href="https://stream.retroscene.org/hls/main.m3u8">HLS</a>
+                </nav>
             </div>
         </header>
         <main role="main" class="inner cover">
@@ -102,7 +103,7 @@ $(document).ready(function(){
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p></p>
+                <p>retroscene team 2014-2020</p>
             </div>
         </footer>
     </div>
