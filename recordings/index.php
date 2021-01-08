@@ -92,7 +92,9 @@ function formatTitle($const, $file = "") {
 <script>
 const player = videojs('vid1');
 
-setInterval(() => {
+setInterval(updateNumViewers, 10000);
+updateNumViewers();
+function updateNumViewers() {
         fetch('/stats.php').then(response => response.json()).then(response => {
                 if (response.streams.main == undefined || response.streams.main == 0) {
                         document.getElementById("num-viewers").innerHTML = "";
@@ -100,8 +102,7 @@ setInterval(() => {
                         document.getElementById("num-viewers").innerHTML = response.streams.main;
                 }
         });
-}, 10000);
-
+}
 
 $(document).ready(function(){
         $('a[id="recording"]').click(function(e){
