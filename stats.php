@@ -1,8 +1,14 @@
 <?php
-header('Content-type: application/json');
+header('Content-type: application/json; charset=utf-8');
+
+ob_start();
 $content = file_get_contents('http://stream.retroscene.org:9966/views');
-if ($content) {
-        echo $content;
-} else {
-        echo '{"streams":{"main":0},"status":"fetch error"}';
+$error = ob_get_clean();
+if (!$content) {
+        $content = json_encode(array(
+                'streams' => array('main' => 0),
+                'error' => trim(strip_tags($error)),
+        ));
 }
+
+echo $content;
