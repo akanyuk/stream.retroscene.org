@@ -93,7 +93,7 @@ function formatTitle($const, $file = "") {
 const player = videojs('vid1');
 
 setInterval(() => {
-        fetch('<?php echo $const['statsUrl']?>').then(response => response.json()).then(response => {
+        fetch('/stats.php').then(response => response.json()).then(response => {
                 if (response.streams.main == undefined || response.streams.main == 0) {
                         document.getElementById("num-viewers").innerHTML = "";
                 } else {
