@@ -84,7 +84,7 @@ function formatTitle($const, $file = "") {
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>retroscene team 2014-2021</p>
+                <p>retroscene team 2014-2022</p>
             </div>
         </footer>
     </div>

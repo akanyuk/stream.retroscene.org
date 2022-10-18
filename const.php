@@ -1,5 +1,5 @@
 <?php
 return array(
-        'titlePrefix' => 'DiHalt 2022',
-        'header' => 'DiHalt 2022 live',
+        'titlePrefix' => 'CAFe 2022',
+        'header' => 'CAFe 2022 live',
 );
